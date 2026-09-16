@@ -1,77 +1,40 @@
 package com.biblio.demo.model;
 
-import java.util.Arrays;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.ArrayList;
 import java.util.List;
 
+
+@Getter
+@Setter
 public class Etagere {
 
     private static final int MAX_LIVRE = 10;
+    private static int CPT = 1;
 
+    int id;
     List<Livre> livres;
-
     int row;
     int column;
 
-    public Etagere(Livre... livres){
-        this.setLivres(Arrays.asList(livres));
-    }
-
-    public Etagere(List<Livre> livres){
-
-    }
-
-    public List<Livre> getLivres() {
-        return livres;
-    }
-
-    public void setLivres(List<Livre> livres) throws IllegalArgumentException{
-        // check la size
-        var ajoutOk = livres.size() < MAX_LIVRE;
-        if(ajoutOk){
-
-//            for(var livre : livres){
-//                if(livre.titre != null){
-//                    livre.setEtagere(this);
-//                }
-//            }
-
-            livres.stream()
-                    .filter(livre -> livre.titre!= null)
-                    .forEach(livre -> livre.setEtagere(this));
-
-
-
-        }
-        else{
-            throw new IllegalArgumentException("Il y a trop de livre taille max = 10");
-        }
+    public Etagere(int row, int column){
+        this.id = CPT++;
+        this.row = row;
+        this.column = column;
+        this.livres = new ArrayList<>();
     }
 
     public void addLivre(Livre livre){
-        this.livres.add(livre);
+        if(livres.size() >= MAX_LIVRE)
+            throw new IllegalArgumentException("Il y a trop de livre taille max = " + MAX_LIVRE);
+        livres.add(livre);
+        livre.setEtagere(this);
     }
 
-    public int getRow() {
-        return row;
+    public void deleteLivre(Livre livre){
+        livres.remove(livre);
+        livre.setEtagere(null);
     }
-
-    public void setRow(int row) {
-        this.row = row;
-    }
-
-    public int getColumn() {
-        return column;
-    }
-
-    public void setColumn(int column) {
-        this.column = column;
-    }
-
-    public void deleteLivre(Livre livre){this.livres.remove(livre);}
-
-    /*public void prendFeu(){
-        livres.stream()
-                .filter(livre -> livre.etat == EtatLivre.LIBRE)
-                .forEach(livre -> livre.setEtat(EtatLivre.DETRUIT));
-    }*/
 }

@@ -1,5 +1,11 @@
 package com.biblio.demo.model;
 
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
 public class Auteur {
 
     private static int ID_CPT = 1;
@@ -15,22 +21,12 @@ public class Auteur {
     }
 
     public Auteur(String nom, String prenom){
-        this.id = ID_CPT;
+        this.id = ID_CPT++;
         this.nom = nom;
         this.prenom = prenom;
     }
 
-    public void modifieNom(String nouveauNom){
-        this.nom = nouveauNom;
-    }
-
-    @Override
     public String toString(){
         return "ID : " + id + " Nom : " + nom + " " + " Prénom : " + prenom ;
     }
-
-    private Livre ecrire(String titre, String type, String genre, String edition){
-        return new Livre(titre, this, type, genre, edition);
-    }
-
 }
