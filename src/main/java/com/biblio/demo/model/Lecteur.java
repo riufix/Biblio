@@ -1,8 +1,13 @@
 package com.biblio.demo.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
 public class Lecteur {
     private static int CPT = 1;
 
@@ -16,9 +21,12 @@ public class Lecteur {
         this.livres = new ArrayList<>();
     }
 
+    public List<Livre> getLivre(){
+        return List.copyOf(livres);
+    }
+
     public Livre emprunt(Livre livre){
         livre.emprunter();
-        // livre hashcode = 12
         this.livres.add(livre);
         return livre;
     }
@@ -34,7 +42,7 @@ public class Lecteur {
             livre.declarerPerdu();
         }
         else{
-         throw new IllegalArgumentException("Vous ne pouvez me perdre");
+         throw new IllegalArgumentException("Vous ne pouvez pas me perdre");
         }
     }
 }

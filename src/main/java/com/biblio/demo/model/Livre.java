@@ -1,5 +1,10 @@
 package com.biblio.demo.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Livre implements Document {
 
     private static int CPT = 1;
@@ -52,17 +57,5 @@ public class Livre implements Document {
 
     public void declarerPerdu(){
         setEtat(EtatLivre.PERDU);
-    }
-
-    public EtatLivre getEtat() {
-        return etat;
-    }
-
-    public void setEtat(EtatLivre etat){
-        this.etat = etat;
-    }
-
-    public void setEtagere(Etagere etagere) {
-        this.etagere = etagere;
     }
 }
