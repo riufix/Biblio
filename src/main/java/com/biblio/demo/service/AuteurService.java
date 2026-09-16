@@ -11,12 +11,12 @@ import java.util.List;
 public class AuteurService {
     private final List<Auteur> auteurs = new ArrayList<>();
 
-    public final List<Auteur> recupererTousLesAuteur(){
+    public final List<Auteur> recupererTousLesAuteurs(){ // Nom corrigé
         return List.copyOf(auteurs);
     }
 
-    public Auteur ajouter(String nom, String prenom){
-        var auteur = new Auteur(nom, prenom);
+    // MODIFIÉ : Accepte l'objet Auteur complet
+    public Auteur ajouter(Auteur auteur){
         auteurs.add(auteur);
         return auteur;
     }
@@ -33,10 +33,5 @@ public class AuteurService {
         if(auteur != null)
             auteur.setNom(nouveauNom);
         return auteur;
-    }
-
-    private Livre ecrire(int id, String titre, String type, String genre, String edition){
-        var auteur = recupererParId(id);
-        return new Livre(titre, auteur, type, genre, edition);
     }
 }

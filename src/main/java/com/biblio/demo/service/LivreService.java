@@ -11,9 +11,8 @@ import java.util.List;
 public class LivreService {
     private final List<Livre> livres = new ArrayList<>();
 
-
-    public Livre ajouter(String titre, Auteur auteur, String type, String genre, String edition){
-        var livre = new Livre(titre, auteur, type, genre, edition);
+    // MODIFIÉ : Accepte directement l'objet Livre
+    public Livre ajouter(Livre livre){
         livres.add(livre);
         return livre;
     }
@@ -31,7 +30,7 @@ public class LivreService {
 
     public List<Livre> recupereParAuteur (int id){
         return livres.stream()
-                .filter(livre -> livre.getAuteur().getId() == id)
+                .filter(livre -> livre.getAuteur() != null && livre.getAuteur().getId() == id)
                 .toList();
     }
 
@@ -70,5 +69,4 @@ public class LivreService {
         livre.suprimer();
         return livre;
     }
-
 }

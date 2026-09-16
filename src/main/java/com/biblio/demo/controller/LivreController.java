@@ -15,18 +15,33 @@ public class LivreController {
     private final LivreService livreService;
 
     @PostMapping
-    public Livre ajouterLivre(@RequestBody String titre){
-        return livreService.ajouter(titre);
+    public Livre ajouterLivre(@RequestBody Livre livre){
+        return livreService.ajouter(livre);
     }
 
-    @GetMapping // recupere tout les livres
+    @GetMapping
     public List<Livre> recupereLivre(){
         return livreService.recupereToutLesLivres();
     }
 
-    @GetMapping("/{id}") // recupere le livre id = id
+    @GetMapping("/{id}")
     public Livre recupereLivreParId(@PathVariable int id){
         return livreService.recupereParId(id);
     }
 
+    // NOUVEAUX ENDPOINTS METIERS
+    @PutMapping("/{id}/emprunter")
+    public Livre emprunter(@PathVariable int id){
+        return livreService.emprunter(id);
+    }
+
+    @PutMapping("/{id}/rendre")
+    public Livre rendre(@PathVariable int id){
+        return livreService.rendre(id);
+    }
+
+    @PutMapping("/{id}/perdu")
+    public Livre perdu(@PathVariable int id){
+        return livreService.declarerPerdu();
+    }
 }

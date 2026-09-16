@@ -21,7 +21,7 @@ public class AuteurController {
 
     @GetMapping
     public List<Auteur> recupererAuteurs() {
-        return auteurService.recupererToutLesAuteurs();
+        return auteurService.recupererTousLesAuteurs(); // Appel corrigé
     }
 
     @GetMapping("/{id}")
