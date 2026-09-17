@@ -14,18 +14,23 @@ public class AuteurController {
 
     private final AuteurService auteurService;
 
-    @PostMapping
-    public Auteur ajouterAuteur(@RequestBody Auteur auteur) {
-        return auteurService.ajouter(auteur);
+    @PostMapping // POST /api/auteur?nom=Hugo&prenom=Victor
+    public Auteur ajouterAuteur(@RequestParam String nom, @RequestParam String prenom) {
+        return auteurService.ajouterAuteur(nom, prenom);
     }
 
     @GetMapping
     public List<Auteur> recupererAuteurs() {
-        return auteurService.recupererToutLesAuteurs();
+        return auteurService.recupererTousLesAuteurs();
     }
 
     @GetMapping("/{id}")
     public Auteur recupereAuteurParId(@PathVariable int id) {
-        return auteurService.recupereParId(id);
+        return auteurService.recupererParId(id);
+    }
+
+    @PutMapping("/{id}") // PUT /api/auteur/1?nouveauNom=Dumas
+    public Auteur modifierNom(@PathVariable int id, @RequestParam String nouveauNom) {
+        return auteurService.modifieNom(id, nouveauNom);
     }
 }

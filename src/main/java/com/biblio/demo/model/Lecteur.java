@@ -15,15 +15,15 @@ public class Lecteur {
     String prenom;
     List<Livre> livres;
 
-    public Lecteur( String prenom) {
+    public Lecteur(String prenom) {
         this.id = CPT++;
         this.prenom = prenom;
         this.livres = new ArrayList<>();
     }
 
-    public List<Livre> getLivre(){
+    /*public List<Livre> getLivres(){
         return List.copyOf(livres);
-    }
+    }*/
 
     public Livre emprunt(Livre livre){
         livre.emprunter();
@@ -32,17 +32,21 @@ public class Lecteur {
     }
 
     public Livre rendre(Livre livre){
+        verifiePossede(livre);
         livre.rendre();
         this.livres.remove(livre);
         return livre;
     }
 
-    public void perdre(Livre livre){
-        if(livres.contains(livre)){
-            livre.declarerPerdu();
-        }
-        else{
-         throw new IllegalArgumentException("Vous ne pouvez pas me perdre");
-        }
+    public Livre perdre(Livre livre){
+        verifiePossede(livre);
+        livre.declarerPerdu();
+        this.livres.remove(livre);
+        return livre;
+    }
+
+    private void verifiePossede(Livre livre){
+        if(!livres.contains(livre))
+            throw new IllegalArgumentException("Ce lecteur n'a pas emprunte ce livre");
     }
 }
