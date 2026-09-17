@@ -1,5 +1,6 @@
 package com.biblio.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,11 +15,13 @@ public class Livre implements Document {
     Auteur auteur;
     String type;
     String genre;
-    EtatLivre etat = EtatLivre.LIBRE; // par defaut false
+    EtatLivre etat;
     String edition;
+
+    @JsonIgnore // evite la boucle JSON etagere -> livres -> etagere
     Etagere etagere;
 
-    public Livre(String titre,  Auteur auteur, String type, String genre, String edition){
+    public Livre(String titre, Auteur auteur, String type, String genre, String edition){
         this.id = CPT++; // équivalent à this.id = CPT et CPT = CPT + 1
         this.titre = titre;
         this.auteur = auteur;
@@ -28,34 +31,41 @@ public class Livre implements Document {
         this.etat = EtatLivre.LIBRE;
     }
 
+    @Override
     public void emprunter(){
-        if(etat == EtatLivre.LIBRE)
-            setEtat(EtatLivre.EMPRUNTE);
-        else
-            throw new IllegalArgumentException("Deja emprunter");
-    }
-
-    public void rendre(){
-        setEtat(EtatLivre.LIBRE);
-    }
-
-    public void suprimer(){
-        if(etat != EtatLivre.SUPRIME)
-            setEtat(EtatLivre.SUPRIME);
-        else
-            throw new IllegalArgumentException("Deja suprimer");
+        if(etat != EtatLivre.LIBRE && etat != EtatLivre.RESERVE)
+            throw new IllegalArgumentException("Livre non disponible : " + etat);
+        etat = EtatLivre.EMPRUNTE;
     }
 
     @Override
-    public void reserver() {
-
+    public void rendre(){
+        if(etat != EtatLivre.EMPRUNTE)
+            throw new IllegalArgumentException("Livre non emprunte");
+        etat = EtatLivre.LIBRE;
     }
 
+    @Override
+    public void reserver(){
+        if(etat != EtatLivre.LIBRE)
+            throw new IllegalArgumentException("Livre non disponible : " + etat);
+        etat = EtatLivre.RESERVE;
+    }
+
+    @Override
+    public void suprimer(){
+        if(etat == EtatLivre.SUPRIME)
+            throw new IllegalArgumentException("Deja suprimer");
+        etat = EtatLivre.SUPRIME;
+    }
+
+    @Override
     public void vol(){
-        setEtat(EtatLivre.VOL);
+        etat = EtatLivre.VOL;
     }
 
+    @Override
     public void declarerPerdu(){
-        setEtat(EtatLivre.PERDU);
+        etat = EtatLivre.PERDU;
     }
 }

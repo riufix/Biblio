@@ -11,8 +11,7 @@ import java.util.List;
 public class LivreService {
     private final List<Livre> livres = new ArrayList<>();
 
-
-    public Livre ajouter(String titre, Auteur auteur, String type, String genre, String edition){
+    public Livre ajouterLivre(String titre, Auteur auteur, String type, String genre, String edition){
         var livre = new Livre(titre, auteur, type, genre, edition);
         livres.add(livre);
         return livre;
@@ -29,23 +28,13 @@ public class LivreService {
                 .orElseThrow(() -> new IllegalArgumentException("Livre Introuvable id : " + id));
     }
 
-    public List<Livre> recupereParAuteur (int id){
+    public List<Livre> recupereParAuteur(int auteurId){
         return livres.stream()
-                .filter(livre -> livre.getAuteur().getId() == id)
+                .filter(livre -> livre.getAuteur().getId() == auteurId)
                 .toList();
     }
 
-    public Livre emprunter(int id){
-        var livre = recupereParId(id);
-        livre.emprunter();
-        return livre;
-    }
-
-    public Livre rendre(int id){
-        var livre = recupereParId(id);
-        livre.rendre();
-        return livre;
-    }
+    // emprunter / rendre passent par LecteurService pour garder la liste du lecteur a jour
 
     public Livre reserver(int id){
         var livre = recupereParId(id);
@@ -70,5 +59,4 @@ public class LivreService {
         livre.suprimer();
         return livre;
     }
-
 }

@@ -17,7 +17,7 @@ public class LecteurService {
         return lecteur;
     }
 
-    public List<Lecteur> recupereTousLesLecteur(){
+    public List<Lecteur> recupereTousLesLecteurs(){
         return List.copyOf(lecteurs);
     }
 
@@ -44,8 +44,8 @@ public class LecteurService {
         return lecteur.rendre(livre);
     }
 
-    public void perdre(int id, Livre livre){
+    public Livre perdre(int id, Livre livre){
         var lecteur = recupereParId(id);
-        lecteur.perdre(livre);
+        return lecteur.perdre(livre);
     }
 }
