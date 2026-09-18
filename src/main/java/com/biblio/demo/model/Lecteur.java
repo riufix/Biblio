@@ -1,5 +1,6 @@
 package com.biblio.demo.model;
 
+import com.biblio.demo.exeption.LivreNonEmprunteExeption;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -51,6 +52,6 @@ public class Lecteur {
     private void verifiePossede(Livre livre){
         var possede = livres.stream().anyMatch(l -> l.getId() == livre.getId());
         if(!possede)
-            throw new IllegalArgumentException("Ce lecteur n'a pas emprunte ce livre");
+            throw new LivreNonEmprunteExeption(this.id, livre.getId());
     }
 }

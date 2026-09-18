@@ -1,5 +1,6 @@
 package com.biblio.demo.model;
 
+import com.biblio.demo.exeption.EtagerePleineExeption;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,7 +39,7 @@ public class Etagere {
 
     public void addLivre(Livre livre){
         if(livres.size() >= MAX_LIVRE)
-            throw new IllegalArgumentException("Il y a trop de livre taille max = " + MAX_LIVRE);
+            throw new EtagerePleineExeption(MAX_LIVRE);
         livres.add(livre);
         livre.setEtagere(this);
     }

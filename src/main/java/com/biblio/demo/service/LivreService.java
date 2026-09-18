@@ -1,5 +1,6 @@
 package com.biblio.demo.service;
 
+import com.biblio.demo.exeption.LivreNotFoundExeption;
 import com.biblio.demo.model.Auteur;
 import com.biblio.demo.model.Livre;
 import com.biblio.demo.repository.LivreRepository;
@@ -26,7 +27,7 @@ public class LivreService {
 
     public Livre recupereParId(int id){
         return livreRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Livre Introuvable id : " + id));
+                .orElseThrow(() -> new LivreNotFoundExeption(id));
     }
 
     public List<Livre> recupereParAuteur(int auteurId){

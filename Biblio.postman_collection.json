@@ -1,0 +1,616 @@
+{
+  "info": {
+    "name": "Test",
+    "_postman_id": "biblio-api-collection",
+    "description": "API biblio. Modifier les variables auteurId / livreId / etagereId / lecteurId selon les ids renvoyes par la base.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "auteurId",
+      "value": "1"
+    },
+    {
+      "key": "livreId",
+      "value": "1"
+    },
+    {
+      "key": "etagereId",
+      "value": "1"
+    },
+    {
+      "key": "lecteurId",
+      "value": "1"
+    }
+  ],
+  "item": [
+    {
+      "name": "Auteurs",
+      "item": [
+        {
+          "name": "Creer un auteur",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/auteur?nom=Hugo&prenom=Victor",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auteur"
+              ],
+              "query": [
+                {
+                  "key": "nom",
+                  "value": "Hugo"
+                },
+                {
+                  "key": "prenom",
+                  "value": "Victor"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Lister les auteurs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/auteur",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auteur"
+              ],
+              "query": []
+            }
+          }
+        },
+        {
+          "name": "Auteur par id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/auteur/{{auteurId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auteur",
+                "{{auteurId}}"
+              ],
+              "query": []
+            }
+          }
+        },
+        {
+          "name": "Renommer un auteur",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/auteur/{{auteurId}}?nouveauNom=Dumas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auteur",
+                "{{auteurId}}"
+              ],
+              "query": [
+                {
+                  "key": "nouveauNom",
+                  "value": "Dumas"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Livres",
+      "item": [
+        {
+          "name": "Creer un livre",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/livre?titre=Les miserables&auteurId={{auteurId}}&type=Roman&genre=Drame&edition=Folio",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "livre"
+              ],
+              "query": [
+                {
+                  "key": "titre",
+                  "value": "Les miserables"
+                },
+                {
+                  "key": "auteurId",
+                  "value": "{{auteurId}}"
+                },
+                {
+                  "key": "type",
+                  "value": "Roman"
+                },
+                {
+                  "key": "genre",
+                  "value": "Drame"
+                },
+                {
+                  "key": "edition",
+                  "value": "Folio"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Lister les livres",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/livre",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "livre"
+              ],
+              "query": []
+            }
+          }
+        },
+        {
+          "name": "Livre par id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/livre/{{livreId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "livre",
+                "{{livreId}}"
+              ],
+              "query": []
+            }
+          }
+        },
+        {
+          "name": "Livres d'un auteur",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/livre/auteur/{{auteurId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "livre",
+                "auteur",
+                "{{auteurId}}"
+              ],
+              "query": []
+            }
+          }
+        },
+        {
+          "name": "Reserver un livre",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/livre/{{livreId}}/reserver",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "livre",
+                "{{livreId}}",
+                "reserver"
+              ],
+              "query": []
+            }
+          }
+        },
+        {
+          "name": "Declarer perdu",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/livre/{{livreId}}/perdu",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "livre",
+                "{{livreId}}",
+                "perdu"
+              ],
+              "query": []
+            }
+          }
+        },
+        {
+          "name": "Declarer vol",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/livre/{{livreId}}/vol",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "livre",
+                "{{livreId}}",
+                "vol"
+              ],
+              "query": []
+            }
+          }
+        },
+        {
+          "name": "Supprimer un livre",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/livre/{{livreId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "livre",
+                "{{livreId}}"
+              ],
+              "query": []
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Etageres",
+      "item": [
+        {
+          "name": "Creer une etagere",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/etagere?row=1&column=2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "etagere"
+              ],
+              "query": [
+                {
+                  "key": "row",
+                  "value": "1"
+                },
+                {
+                  "key": "column",
+                  "value": "2"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Lister les etageres",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/etagere",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "etagere"
+              ],
+              "query": []
+            }
+          }
+        },
+        {
+          "name": "Etagere par id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/etagere/{{etagereId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "etagere",
+                "{{etagereId}}"
+              ],
+              "query": []
+            }
+          }
+        },
+        {
+          "name": "Livres d'une etagere",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/etagere/{{etagereId}}/livres",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "etagere",
+                "{{etagereId}}",
+                "livres"
+              ],
+              "query": []
+            }
+          }
+        },
+        {
+          "name": "Ajouter un livre sur l'etagere",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/etagere/{{etagereId}}/livre/{{livreId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "etagere",
+                "{{etagereId}}",
+                "livre",
+                "{{livreId}}"
+              ],
+              "query": []
+            }
+          }
+        },
+        {
+          "name": "Retirer un livre de l'etagere",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/etagere/{{etagereId}}/livre/{{livreId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "etagere",
+                "{{etagereId}}",
+                "livre",
+                "{{livreId}}"
+              ],
+              "query": []
+            }
+          }
+        },
+        {
+          "name": "Deplacer l'etagere",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/etagere/{{etagereId}}?row=3&column=4",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "etagere",
+                "{{etagereId}}"
+              ],
+              "query": [
+                {
+                  "key": "row",
+                  "value": "3"
+                },
+                {
+                  "key": "column",
+                  "value": "4"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Lecteurs",
+      "item": [
+        {
+          "name": "Creer un lecteur",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/lecteur?prenom=Marie",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "lecteur"
+              ],
+              "query": [
+                {
+                  "key": "prenom",
+                  "value": "Marie"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Lister les lecteurs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/lecteur",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "lecteur"
+              ],
+              "query": []
+            }
+          }
+        },
+        {
+          "name": "Lecteur par id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/lecteur/{{lecteurId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "lecteur",
+                "{{lecteurId}}"
+              ],
+              "query": []
+            }
+          }
+        },
+        {
+          "name": "Renommer un lecteur",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/lecteur/{{lecteurId}}?nouveauPrenom=Paul",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "lecteur",
+                "{{lecteurId}}"
+              ],
+              "query": [
+                {
+                  "key": "nouveauPrenom",
+                  "value": "Paul"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Emprunter un livre",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/lecteur/{{lecteurId}}/emprunter/{{livreId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "lecteur",
+                "{{lecteurId}}",
+                "emprunter",
+                "{{livreId}}"
+              ],
+              "query": []
+            }
+          }
+        },
+        {
+          "name": "Rendre un livre",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/lecteur/{{lecteurId}}/rendre/{{livreId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "lecteur",
+                "{{lecteurId}}",
+                "rendre",
+                "{{livreId}}"
+              ],
+              "query": []
+            }
+          }
+        },
+        {
+          "name": "Perdre un livre",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/lecteur/{{lecteurId}}/perdre/{{livreId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "lecteur",
+                "{{lecteurId}}",
+                "perdre",
+                "{{livreId}}"
+              ],
+              "query": []
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 package com.biblio.demo.model;
 
+import com.biblio.demo.exeption.EtatLivreInvalideExeption;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -53,28 +54,28 @@ public class Livre implements Document {
     @Override
     public void emprunter(){
         if(etat != EtatLivre.LIBRE && etat != EtatLivre.RESERVE)
-            throw new IllegalArgumentException("Livre non disponible : " + etat);
+            throw new EtatLivreInvalideExeption("emprunter", etat);
         etat = EtatLivre.EMPRUNTE;
     }
 
     @Override
     public void rendre(){
         if(etat != EtatLivre.EMPRUNTE)
-            throw new IllegalArgumentException("Livre non emprunte");
+            throw new EtatLivreInvalideExeption("rendre", etat);
         etat = EtatLivre.LIBRE;
     }
 
     @Override
     public void reserver(){
         if(etat != EtatLivre.LIBRE)
-            throw new IllegalArgumentException("Livre non disponible : " + etat);
+            throw new EtatLivreInvalideExeption("reserver", etat);
         etat = EtatLivre.RESERVE;
     }
 
     @Override
     public void suprimer(){
         if(etat == EtatLivre.SUPRIME)
-            throw new IllegalArgumentException("Deja suprimer");
+            throw new EtatLivreInvalideExeption("suprimer", etat);
         etat = EtatLivre.SUPRIME;
     }
 

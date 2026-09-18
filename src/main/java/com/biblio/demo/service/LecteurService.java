@@ -1,5 +1,6 @@
 package com.biblio.demo.service;
 
+import com.biblio.demo.exeption.LecteurNotFoundExeption;
 import com.biblio.demo.model.Lecteur;
 import com.biblio.demo.model.Livre;
 import com.biblio.demo.repository.LecteurRepository;
@@ -26,7 +27,7 @@ public class LecteurService {
 
     public Lecteur recupereParId(int id){
         return lecteurRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Lecteur Introuvable id : " + id));
+                .orElseThrow(() -> new LecteurNotFoundExeption(id));
     }
 
     @Transactional

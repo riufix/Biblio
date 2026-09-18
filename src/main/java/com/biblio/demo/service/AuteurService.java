@@ -1,5 +1,6 @@
 package com.biblio.demo.service;
 
+import com.biblio.demo.exeption.AuteurNotFoundExeption;
 import com.biblio.demo.model.Auteur;
 import com.biblio.demo.repository.AuteurRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class AuteurService {
 
     public Auteur recupererParId(int id){
         return auteurRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Auteur Introuvable, id : " + id));
+                .orElseThrow(() -> new AuteurNotFoundExeption(id));
     }
 
     @Transactional
