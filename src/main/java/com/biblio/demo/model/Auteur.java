@@ -1,27 +1,27 @@
 package com.biblio.demo.model;
 
-
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Setter
+@Entity
 @Getter
+@Setter
+@NoArgsConstructor // exige par JPA
 public class Auteur {
 
-    private static int ID_CPT = 1;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    int id;
 
-    int id; // = 0
     String nom;
     String prenom;
 
-    private Auteur(int id, String nom, String prenom){
-        this.id = id;
-        this.nom = nom;
-        this.prenom = prenom;
-    }
-
     public Auteur(String nom, String prenom){
-        this.id = ID_CPT++;
         this.nom = nom;
         this.prenom = prenom;
     }

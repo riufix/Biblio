@@ -1,28 +1,47 @@
 package com.biblio.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Entity
 @Getter
-@Setter
+@NoArgsConstructor // exige par JPA
 public class Livre implements Document {
 
-    private static int CPT = 1;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    int id;
 
-    int id; // utilisation de static
     String titre;
+
+    @ManyToOne // colonne auteur_id
     Auteur auteur;
+
     String type;
     String genre;
+
+    @Enumerated(EnumType.STRING) // stocke "LIBRE" et non 0
     EtatLivre etat;
+
     String edition;
 
+    @ManyToOne
+    @JoinColumn(name = "lecteur_id", referencedColumnName = "id")
+    Lecteur lecteur;
+
+    @ManyToOne
+    @Setter
     @JsonIgnore // evite la boucle JSON etagere -> livres -> etagere
     Etagere etagere;
 
+    public void setLecteur(Lecteur lecteur) {
+        this.lecteur = lecteur;
+    }
+
     public Livre(String titre, Auteur auteur, String type, String genre, String edition){
-        this.id = CPT++; // équivalent à this.id = CPT et CPT = CPT + 1
         this.titre = titre;
         this.auteur = auteur;
         this.type = type;

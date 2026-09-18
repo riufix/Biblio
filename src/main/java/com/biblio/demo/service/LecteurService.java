@@ -2,50 +2,61 @@ package com.biblio.demo.service;
 
 import com.biblio.demo.model.Lecteur;
 import com.biblio.demo.model.Livre;
+import com.biblio.demo.repository.LecteurRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class LecteurService {
-    private final List<Lecteur> lecteurs = new ArrayList<>();
 
+    private final LecteurRepository lecteurRepository; // remplace la liste en memoire
+
+    @Transactional
     public Lecteur ajouter(String prenom){
-        var lecteur = new  Lecteur(prenom);
-        lecteurs.add(lecteur);
-        return lecteur;
+        return lecteurRepository.save(new Lecteur(prenom));
     }
 
     public List<Lecteur> recupereTousLesLecteurs(){
-        return List.copyOf(lecteurs);
+        return lecteurRepository.findAll();
     }
 
-    public  Lecteur recupereParId(int id){
-        return lecteurs.stream()
-                .filter(lecteur -> lecteur.getId() == id)
-                .findFirst()
+    public Lecteur recupereParId(int id){
+        return lecteurRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Lecteur Introuvable id : " + id));
     }
 
+    @Transactional
     public Lecteur modifierPrenom(int id, String nouveauPrenom){
         var lecteur = recupereParId(id);
         lecteur.setPrenom(nouveauPrenom);
-        return lecteur;
+        return lecteurRepository.save(lecteur);
     }
 
+    @Transactional
     public Livre emprunter(int id, Livre livre){
         var lecteur = recupereParId(id);
-        return lecteur.emprunt(livre);
+        var emprunte = lecteur.emprunt(livre);
+        lecteurRepository.save(lecteur); // enregistre le lien lecteur_id et l'etat du livre
+        return emprunte;
     }
 
+    @Transactional
     public Livre rendre(int id, Livre livre){
         var lecteur = recupereParId(id);
-        return lecteur.rendre(livre);
+        var rendu = lecteur.rendre(livre);
+        lecteurRepository.save(lecteur);
+        return rendu;
     }
 
+    @Transactional
     public Livre perdre(int id, Livre livre){
         var lecteur = recupereParId(id);
-        return lecteur.perdre(livre);
+        var perdu = lecteur.perdre(livre);
+        lecteurRepository.save(lecteur);
+        return perdu;
     }
 }

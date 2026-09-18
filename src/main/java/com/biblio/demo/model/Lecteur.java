@@ -1,29 +1,32 @@
 package com.biblio.demo.model;
 
+import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 @Getter
-@Setter
+@NoArgsConstructor // exige par JPA
 public class Lecteur {
-    private static int CPT = 1;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // l'id vient de la base
     int id;
+
+    @Setter
     String prenom;
-    List<Livre> livres;
+
+    // les livres empruntes : colonne lecteur_id dans la table livre
+    @OneToMany(fetch = FetchType.EAGER)
+    List<Livre> livres = new ArrayList<>();
 
     public Lecteur(String prenom) {
-        this.id = CPT++;
         this.prenom = prenom;
-        this.livres = new ArrayList<>();
     }
-
-    /*public List<Livre> getLivres(){
-        return List.copyOf(livres);
-    }*/
 
     public Livre emprunt(Livre livre){
         livre.emprunter();
@@ -34,19 +37,20 @@ public class Lecteur {
     public Livre rendre(Livre livre){
         verifiePossede(livre);
         livre.rendre();
-        this.livres.remove(livre);
+        this.livres.removeIf(l -> l.getId() == livre.getId());
         return livre;
     }
 
     public Livre perdre(Livre livre){
         verifiePossede(livre);
         livre.declarerPerdu();
-        this.livres.remove(livre);
+        this.livres.removeIf(l -> l.getId() == livre.getId());
         return livre;
     }
 
     private void verifiePossede(Livre livre){
-        if(!livres.contains(livre))
+        var possede = livres.stream().anyMatch(l -> l.getId() == livre.getId());
+        if(!possede)
             throw new IllegalArgumentException("Ce lecteur n'a pas emprunte ce livre");
     }
 }

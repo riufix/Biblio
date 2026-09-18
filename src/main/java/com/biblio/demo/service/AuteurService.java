@@ -1,35 +1,37 @@
 package com.biblio.demo.service;
 
 import com.biblio.demo.model.Auteur;
+import com.biblio.demo.repository.AuteurRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class AuteurService {
-    private final List<Auteur> auteurs = new ArrayList<>();
 
+    private final AuteurRepository auteurRepository;
+
+    @Transactional
     public Auteur ajouterAuteur(String nom, String prenom){
-        var auteur = new Auteur(nom, prenom);
-        auteurs.add(auteur);
-        return auteur;
+        return auteurRepository.save(new Auteur(nom, prenom));
     }
 
     public List<Auteur> recupererTousLesAuteurs(){
-        return List.copyOf(auteurs);
+        return auteurRepository.findAll();
     }
 
     public Auteur recupererParId(int id){
-        return auteurs.stream()
-                .filter(auteur -> auteur.getId() == id)
-                .findFirst()
+        return auteurRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Auteur Introuvable, id : " + id));
     }
 
+    @Transactional
     public Auteur modifieNom(int id, String nouveauNom){
         var auteur = recupererParId(id);
         auteur.setNom(nouveauNom);
-        return auteur;
+        return auteurRepository.save(auteur);
     }
 }
