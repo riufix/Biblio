@@ -2,29 +2,32 @@ package com.biblio.demo.service;
 
 import com.biblio.demo.model.Etagere;
 import com.biblio.demo.model.Livre;
+import com.biblio.demo.repository.EtagereRepository;
+import com.biblio.demo.repository.LivreRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class EtagereService {
-    private final List<Etagere> etageres = new ArrayList<>();
 
+    private final EtagereRepository etagereRepository;
+    private final LivreRepository livreRepository;
+
+    @Transactional
     public Etagere ajouter(int row, int column){
-        var etagere = new Etagere(row, column);
-        etageres.add(etagere);
-        return etagere;
+        return etagereRepository.save(new Etagere(row, column));
     }
 
     public List<Etagere> recupereToutesLesEtageres(){
-        return List.copyOf(etageres);
+        return etagereRepository.findAll();
     }
 
     public Etagere recupereParId(int id){
-        return etageres.stream()
-                .filter(etagere -> etagere.getId() == id)
-                .findFirst()
+        return etagereRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Etagere introuvable, id : " + id));
     }
 
@@ -32,22 +35,27 @@ public class EtagereService {
         return List.copyOf(recupereParId(id).getLivres());
     }
 
+    @Transactional
     public Etagere ajouterLivre(int id, Livre livre){
         var etagere = recupereParId(id);
         etagere.addLivre(livre);
+        livreRepository.save(livre); // c'est Livre qui porte la colonne etagere_id
         return etagere;
     }
 
+    @Transactional
     public Etagere retirerLivre(int id, Livre livre){
         var etagere = recupereParId(id);
         etagere.deleteLivre(livre);
+        livreRepository.save(livre);
         return etagere;
     }
 
+    @Transactional
     public Etagere deplacer(int id, int row, int column){
         var etagere = recupereParId(id);
-        etagere.setRow(row);
-        etagere.setColumn(column);
-        return etagere;
+        etagere.setRow_test(row);
+        etagere.setColumn_test(column);
+        return etagereRepository.save(etagere);
     }
 }
