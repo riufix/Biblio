@@ -1,5 +1,6 @@
 package com.biblio.demo.service;
 
+import com.biblio.demo.exeption.EtagereNotFoundExeption;
 import com.biblio.demo.model.Etagere;
 import com.biblio.demo.model.Livre;
 import com.biblio.demo.repository.EtagereRepository;
@@ -28,7 +29,7 @@ public class EtagereService {
 
     public Etagere recupereParId(int id){
         return etagereRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Etagere introuvable, id : " + id));
+                .orElseThrow(() -> new EtagereNotFoundExeption(id));
     }
 
     public List<Livre> recupereLivres(int id){
